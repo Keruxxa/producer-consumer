@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="../Shared.Contracts/Shared.Contracts.csproj" />
-  <Project Path="Producer.csproj" />
-</Solution>
