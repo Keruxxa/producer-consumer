@@ -6,7 +6,7 @@ public static class ProducersExt
 {
     public static IServiceCollection RegisterProducers(this IServiceCollection services)
     {
-        services.AddSingleton<TransactionProducer>();
+        services.AddHostedService<TransactionProducer>();
 
         return services;
     }

@@ -3,12 +3,15 @@ using Shared.Contracts.Commands;
 
 namespace Producer.Producers;
 
-public class TransactionProducer(IPublishEndpoint publishEndpoint, ILogger<TransactionProducer> logger) : BackgroundService
+public class TransactionProducer(IServiceProvider serviceProvider, ILogger<TransactionProducer> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
+            var scope = serviceProvider.CreateScope();
+            var sendEndpointProvider = scope.ServiceProvider.GetRequiredService<ISendEndpointProvider>();
+
             await Task.Delay(Random.Shared.Next(500, 3000), stoppingToken);
 
             var transaction = new InitiateTransactionCommand
@@ -19,9 +22,9 @@ public class TransactionProducer(IPublishEndpoint publishEndpoint, ILogger<Trans
                 CreatedAt = DateTime.UtcNow
             };
 
-            await publishEndpoint.Publish(transaction, stoppingToken);
+            await sendEndpointProvider.Send(transaction, stoppingToken);
 
-            logger.LogInformation("Transaction {TransactionId} was published", transaction.TransactionId);
+            logger.LogInformation("Transaction was published, Id: {TransactionId} ", transaction.TransactionId);
         }
     }
 }

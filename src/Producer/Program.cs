@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.RegisterMassTransit();
+builder.Services.RegisterProducers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

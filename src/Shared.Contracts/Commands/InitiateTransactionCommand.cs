@@ -1,6 +1,6 @@
 ﻿namespace Shared.Contracts.Commands;
 
-public class InitiateTransactionCommand
+public record InitiateTransactionCommand
 {
     public Guid TransactionId { get; set; }
     public Guid FromUserId { get; set; }
