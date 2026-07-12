@@ -11,7 +11,7 @@ public static class MassTransitExt
         {
             busConf.UsingRabbitMq((context, rabbitConf) =>
             {
-                rabbitConf.Host("rabbitmq://localhost", hostConf =>
+                rabbitConf.Host("rabbitmq", hostConf =>
                 {
                     hostConf.Username("guest");
                     hostConf.Password("guest");

@@ -14,6 +14,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"));
 });
 
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+
+builder.Host.UseDefaultServiceProvider(options =>
+{
+    options.ValidateScopes = true;
+    options.ValidateOnBuild = true;
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

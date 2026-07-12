@@ -1,8 +1,19 @@
 services:
   rabbitmq:
-    image: rabbitmq:management
-    container_name: rabbitmq
-    hostname: rabbitmq
+    image: rabbitmq:4.3.2-management
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "15672:15672"
+      - "5672:5672"
+
+  producer:
+    image: ${DOCKER_REGISTRY-}producer
+    build:
+      context: .
+      dockerfile: src/Producer/Dockerfile
+    depends_on:
+     - rabbitmq

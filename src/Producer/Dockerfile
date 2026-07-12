@@ -1,17 +1,23 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 
 WORKDIR /src
-COPY ["Producer.csproj", "./"]
-RUN dotnet restore "./Producer.csproj"
+COPY ["src/Producer/Producer.csproj", "Producer/"]
+COPY ["src/Shared.Contracts/Shared.Contracts.csproj", "Shared.Contracts/"]
+RUN dotnet restore "Producer/Producer.csproj"
 
-COPY . .
+COPY /src .
 
-WORKDIR "/src/Producer"
-RUN dotnet publish "Producer.csproj" -c Release -o /app/publish
+RUN dotnet build "Producer/Producer.csproj" -c Release -o /app/build
 
-EXPOSE 8080
+FROM build AS publish
+RUN dotnet publish "Producer/Producer.csproj" \
+    -c Release \
+    -o /app/publish \
+    --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 
 WORKDIR /app
-COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "Barrier.Core.dll"]
+COPY --from=publish /app/publish .
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "Producer.dll"]
