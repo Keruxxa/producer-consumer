@@ -5,16 +5,18 @@ namespace Producer.Extensions;
 
 public static class MassTransitExt
 {
-    public static IServiceCollection RegisterMassTransit(this IServiceCollection services)
+    public static IServiceCollection RegisterMassTransit(this IServiceCollection services, ConfigurationManager configuration)
     {
+        var rabbitmq = configuration.GetSection("RabbitMQ");
+
         services.AddMassTransit(busConf =>
         {
             busConf.UsingRabbitMq((context, rabbitConf) =>
             {
-                rabbitConf.Host("rabbitmq", hostConf =>
+                rabbitConf.Host(rabbitmq["Host"], hostConf =>
                 {
-                    hostConf.Username("guest");
-                    hostConf.Password("guest");
+                    hostConf.Username(rabbitmq["Username"]!);
+                    hostConf.Password(rabbitmq["Password"]!);
                 });
 
                 rabbitConf.UseMessageRetry(conf => conf.Interval(3, 3000));

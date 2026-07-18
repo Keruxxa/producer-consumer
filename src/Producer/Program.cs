@@ -6,12 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
-builder.Services.RegisterMassTransit();
+builder.Services.RegisterMassTransit(builder.Configuration);
 builder.Services.RegisterProducers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");

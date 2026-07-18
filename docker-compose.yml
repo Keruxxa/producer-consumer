@@ -16,4 +16,8 @@ services:
       context: .
       dockerfile: src/Producer/Dockerfile
     depends_on:
-     - rabbitmq
+      - rabbitmq
+    environment:
+      RabbitMQ__Host: rabbitmq
+      RabbitQM__Username: ${RABBITMQ_USERNAME}
+      RabbitQM__Password: ${RABBITMQ_PASSWORD}
