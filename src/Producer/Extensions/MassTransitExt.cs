@@ -7,7 +7,7 @@ public static class MassTransitExt
 {
     public static IServiceCollection RegisterMassTransit(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var rabbitmq = configuration.GetSection("RabbitMQ");
+        var rabbitmq = configuration.GetSection("RabbitMq");
 
         services.AddMassTransit(busConf =>
         {

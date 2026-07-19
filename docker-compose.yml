@@ -1,3 +1,5 @@
+name: producer-consumer
+
 services:
   rabbitmq:
     image: rabbitmq:4.3.2-management
@@ -35,6 +37,7 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      RabbitMQ__Host: rabbitmq
-      RabbitQM__Username: ${RABBITMQ_USERNAME}
-      RabbitQM__Password: ${RABBITMQ_PASSWORD}
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Username: ${RABBITMQ_USERNAME}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
+

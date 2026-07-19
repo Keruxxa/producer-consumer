@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
+builder.Services.RegisterOptions(builder.Configuration);
 builder.Services.RegisterMassTransit(builder.Configuration);
 builder.Services.RegisterProducers();
 
