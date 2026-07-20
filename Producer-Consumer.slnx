@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Consumer/Consumer.csproj" Id="413dcdeb-a8c8-40d2-9422-34b726ddd5ed" />
     <Project Path="src/Producer/Producer.csproj" />
     <Project Path="src/Shared.Contracts/Shared.Contracts.csproj" />
   </Folder>

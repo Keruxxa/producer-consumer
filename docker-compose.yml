@@ -30,11 +30,25 @@ services:
     build:
       context: .
       dockerfile: src/Producer/Dockerfile
-      tags:
-        - latest
     ports:
       - "8080:8080"
       - "8081:8081"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Username: ${RABBITMQ_USERNAME}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
+
+  consumer:
+    image: consumer
+    build:
+      context: .
+      dockerfile: src/Consumer/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
     depends_on:
       rabbitmq:
         condition: service_healthy
