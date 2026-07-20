@@ -1,4 +1,5 @@
 ﻿using Consumer.Consumers;
+using Consumer.Infrastracture;
 using MassTransit;
 
 namespace Consumer.Extentions;
@@ -29,6 +30,8 @@ public static class MassTransitExt
                     conf.ConfigureConsumer<TransactionConsumer>(context);
                 });
             });
+
+            busConf.AddEntityFrameworkOutbox<ConsumerDbContext>(opt => opt.UsePostgres());
         });
 
         return services;
