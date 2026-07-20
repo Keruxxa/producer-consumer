@@ -1,6 +1,4 @@
-using Microsoft.EntityFrameworkCore;
 using Producer.Extensions;
-using Producer.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,13 +7,6 @@ builder.Services.AddOpenApi();
 builder.Services.RegisterOptions(builder.Configuration);
 builder.Services.RegisterMassTransit(builder.Configuration);
 builder.Services.RegisterProducers();
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 
 builder.Host.UseDefaultServiceProvider(options =>
 {

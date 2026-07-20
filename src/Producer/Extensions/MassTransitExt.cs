@@ -31,6 +31,6 @@ public static class MassTransitExt
 
     private static void MapMessageTypes()
     {
-        EndpointConvention.Map<InitiateTransactionCommand>(new Uri($"queue:transaction-commands"));
+        EndpointConvention.Map<InitiateTransactionCommand>(new Uri($"queue:transactions"));
     }
 }

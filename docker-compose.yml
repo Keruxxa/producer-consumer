@@ -22,22 +22,26 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_USER}
+    volumes:
+      - pgdata:/var/lib/postgresql
 
   producer:
-    image: ${DOCKER_REGISTRY-}producer
+    image: producer
     build:
       context: .
       dockerfile: src/Producer/Dockerfile
+      tags:
+        - latest
     ports:
       - "8080:8080"
       - "8081:8081"
     depends_on:
       rabbitmq:
         condition: service_healthy
-      postgres:
-        condition: service_healthy
     environment:
       RabbitMq__Host: rabbitmq
       RabbitMq__Username: ${RABBITMQ_USERNAME}
       RabbitMq__Password: ${RABBITMQ_PASSWORD}
 
+volumes:
+  pgdata:
