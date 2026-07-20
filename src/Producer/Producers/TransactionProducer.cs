@@ -24,7 +24,7 @@ public class TransactionProducer(IServiceProvider serviceProvider, ILogger<Trans
 
             await sendEndpointProvider.Send(transaction, stoppingToken);
 
-            logger.LogInformation("Transaction was published, Id: {TransactionId} ", transaction.TransactionId);
+            logger.LogInformation("Transaction published, Id: {TransactionId} ", transaction.TransactionId);
         }
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Producer.Models;
 
-public class Transaction
+public class Transaction(Guid fromUserId, Guid toUserId)
 {
-    public Guid Id { get; set; }
-    public Guid FromUserId { get; set; }
-    public Guid ToUserId { get; set; }
-    public ProgressStatus Status { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public Guid Id { get; set; } = Guid.CreateVersion7();
+    public Guid FromUserId { get; set; } = fromUserId;
+    public Guid ToUserId { get; set; } = toUserId;
+    public ProgressStatus Status { get; set; } = ProgressStatus.Pending;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

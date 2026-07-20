@@ -23,15 +23,19 @@ public static class MassTransitExt
                 });
 
                 rabbitConf.UseMessageRetry(conf => conf.Interval(3, 3000));
-                rabbitConf.ConfigureEndpoints(context);
 
                 rabbitConf.ReceiveEndpoint("transactions", conf =>
                 {
                     conf.ConfigureConsumer<TransactionConsumer>(context);
+                    conf.UseEntityFrameworkOutbox<ConsumerDbContext>(context);
                 });
             });
 
-            busConf.AddEntityFrameworkOutbox<ConsumerDbContext>(opt => opt.UsePostgres());
+            busConf.AddEntityFrameworkOutbox<ConsumerDbContext>(conf =>
+            {
+                conf.UsePostgres();
+                conf.UseBusOutbox();
+            });
         });
 
         return services;
